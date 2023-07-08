@@ -29,7 +29,7 @@ function App() {
           <option value="all">Todos munícipios</option>
         </select>
       </header>
-      <Plot />
+      <Plot area={areaSelect}/>
     </div>
   );
 }

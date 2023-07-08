@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Plot () {
+type Props = {
+    'area': string
+}
+export default function Plot (props: Props) {
 
     const [plotData, setPlotData] = useState('');
 
+    const area = props.area;
     useEffect(() => {
 
         const loadData = async () => {
