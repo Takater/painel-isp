@@ -21,5 +21,6 @@ from . import views
 urlpatterns = [
     path('', views.index, name='Index'),
     path('serve_plot', views.serve_plot, name='Plot'),
+    path('cidades', views.load_cities_list, name='Lista'),
     path('admin/', admin.site.urls),
 ]

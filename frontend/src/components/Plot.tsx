@@ -1,31 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactComponentElement, ReactNode } from 'react';
 
-type Props = {
-    'area': string
+export interface PlotData {
+    'area': string;
+    'city': string;
+    'time': string;
 }
-export default function Plot (props: Props) {
 
-    const [plotData, setPlotData] = useState('');
+export default function Plot (dataPlot: PlotData) {
 
-    const area = props.area;
+
+    const [plotData, setPlotData] = useState<string[]>([]);
+
     useEffect(() => {
 
         const loadData = async () => {
-            const response = await fetch('/serve_plot');
-            const blob = await response.blob();
-            const reader = new FileReader();
 
-            reader.onloadend = () => {
-                const plotDataURL = reader.result as string;
-                setPlotData(plotDataURL);
-            };
-
-            reader.readAsDataURL(blob);
+            // Retrieve plot data from 
+            const response = await fetch('/serve_plot',{
+                headers: {
+                    'Area': dataPlot.area,
+                    'City': dataPlot.city,
+                    'Time': dataPlot.time
+                }
+            });
+            const data = await response.json()
+            data.file_paths && setPlotData(data.file_paths);
         }
 
         loadData();
 
     }, [])
 
-    return <img src={plotData} alt="Plot" />
+    return (
+        <div>
+            {plotData ? plotData.map((each, index) => {
+                return <img src={URL.createObjectURL(new Blob([each]))} alt={`Plot ${index + 1}`}/>
+            }) : <h2>Carregando gráfico...</h2>}
+        </div>
+        )
 }

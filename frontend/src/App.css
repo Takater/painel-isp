@@ -5,4 +5,9 @@
 
 header {
   color: #eee;
+  padding-left: 10px;
+}
+
+select {
+  border-radius: 12px;
 }

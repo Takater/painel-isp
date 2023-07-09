@@ -1,6 +1,6 @@
-from django.http import HttpResponse, FileResponse
+from django.http import HttpResponse, FileResponse, JsonResponse
 from django.template import loader
-from .data import plot_loader
+from .data import plot_loader, lista_cidades
 from .settings import STATICFILES_DIRS
 import os
 
@@ -12,7 +12,14 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 def serve_plot(request):
-    plot_loader(area='all')
-    file_path = os.path.join(STATICFILES_DIRS[0], 'plot.png')
-    plot_file = open(file_path, 'rb')
-    return FileResponse(plot_file, content_type='image/png')
+    chosen_area = request.headers.get('Area')
+    chosen_city = request.headers.get('City')
+    chosen_time = request.headers.get('Time')
+    plot_list = plot_loader(area=chosen_area, city=chosen_city, time=chosen_time)
+    print(f"Variables: {chosen_area}, {chosen_city}, {chosen_time}")
+    print(plot_list)
+    return JsonResponse({'file_paths': plot_list})
+
+def load_cities_list(request):
+    cities = lista_cidades()
+    return JsonResponse({'cidades': cities})
