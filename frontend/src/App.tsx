@@ -4,6 +4,7 @@ import './App.css';
 import Plot from './components/Plot';
 import { PlotData } from './components/Plot';
 import CitiesList from './components/CitiesList';
+import { error } from 'console';
 
 function App() {
   
@@ -14,35 +15,43 @@ function App() {
   const [listCities, setListCities] = useState(false);
 
   useEffect(() => {
-
-    const setPlot = async (area_choice: HTMLSelectElement, city_choice: HTMLSelectElement | null, time_choice: HTMLSelectElement) => {
-
+    
+    const setPlot = (area_choice: HTMLSelectElement, city_choice: HTMLSelectElement | null, time_choice: HTMLSelectElement) => {
 
       // Build new data with updated change
       const newData:PlotData = {
         area: area_choice.value,
-        city: city_choice ? city_choice.value as string : area_choice.value == 'city' ? 'all' : '',
-        time: time_choice.value
+        city: city_choice ? (city_choice.value as string) : '',
+        time: time_choice ? time_choice.value : 'year'
       }
 
+      console.log(newData)
       // Set hooks
       setListCities(newData.area == 'city');
-      setPlotData(newData);
+      setPlotData(newData)
     }
-
+    
     const areaSelect = document.getElementById("area_choice") as HTMLSelectElement;
     const citySelect = document.getElementById("city_choice") as HTMLSelectElement;
     const timeSelect = document.getElementById("time_choice") as HTMLSelectElement;
     
     function handlePlotChange() {
-        setPlot(areaSelect, citySelect, timeSelect)
+      setPlot(areaSelect, citySelect, timeSelect)
     }
-
+    
     areaSelect?.addEventListener('change', handlePlotChange);
     citySelect?.addEventListener('change', handlePlotChange);
     timeSelect?.addEventListener('change', handlePlotChange);
+    
+    if (!plotData) {
+      setPlot(areaSelect, citySelect, timeSelect);
+    }
 
-    !plotData && setPlot(areaSelect, citySelect, timeSelect);
+    return () => {
+      areaSelect?.removeEventListener('change', handlePlotChange);
+      citySelect?.removeEventListener('change', handlePlotChange);
+      timeSelect?.removeEventListener('change', handlePlotChange);
+    }
 
   }, [plotData])
 
@@ -56,13 +65,15 @@ function App() {
             <option value="state">Estado</option>
             <option value="city">Munícipio</option>
           </select>
-          {listCities && 
+          {listCities ? 
             <CitiesList />
+          :
+            <select name="time_choice" id="time_choice">
+              <option value="year">Anual</option>
+              <option value="month">Mensal</option>
+            </select>
           }
-          <select name="time_choice" id="time_choice">
-            <option value="year">Anual</option>
-            <option value="month">Mensal</option>
-          </select>
+          
         </div>
       </header>
       {plotData && <Plot {...plotData} />}

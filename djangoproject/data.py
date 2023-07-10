@@ -18,33 +18,13 @@ def plot_loader(**specs):
     df = pd.DataFrame
     if area == 'city':
         df = pd.read_csv('../PopulacaoEvolucaoMensalMunic.csv', sep=';', encoding='latin-1')
-        
-            
-        if time == 'year':
-            if city == 'all':
-                df_Cidades_Total = pd.read_csv('../PopulacaoEvolucaoMensalMunic.csv', sep=';', encoding='latin-1')
-                df_Cidades_Ano = df_Cidades_Total.groupby('cod_munic', group_keys=True).apply(lambda x: x)
-                cidades = df_Cidades_Ano['munic'].unique()
-                lista_plots = []
-                for cidade in cidades:
-                    df_city = df_Cidades_Ano[df_Cidades_Ano['munic'] == cidade].groupby('ano').last().reset_index()
-                    plt.plot(df_city['ano'], df_city['pop_munic'])
-                    plt.title(f"{df_city['munic'].unique()[0]}")
-                    plt.xlabel("Ano")
-                    plt.ylabel("População")
-                    plt.title(f"{df_city['munic'].unique()[0]}")
-                    file_name = f"{df_city['munic'].unique()[0].replace(' ', '_')}_plot.png"
-                    file_path = os.path.join(STATICFILES_DIRS[0], file_name)
-                    plt.savefig(file_path)
-                    lista_plots.append(file_name)
-                    plt.close()
-                return lista_plots
-            else:
-                df_Cidades_Total = pd.read_csv('../PopulacaoEvolucaoMensalMunic.csv', sep=';', encoding='latin-1')
-                df_Cidades_Ano = df_Cidades_Total.groupby('cod_munic', group_keys=True).apply(lambda x: x)
-                cidades = df_Cidades_Ano['munic'].unique()
-                lista_plots = []
-                df_city = df_Cidades_Ano[df_Cidades_Ano['munic'] == city].groupby('ano').last().reset_index()
+        if city == 'all':
+            df_Cidades_Total = pd.read_csv('../PopulacaoEvolucaoMensalMunic.csv', sep=';', encoding='latin-1')
+            df_Cidades_Ano = df_Cidades_Total.groupby('cod_munic', group_keys=True).apply(lambda x: x)
+            cidades = df_Cidades_Ano['munic'].unique()
+            lista_plots = []
+            for cidade in cidades:
+                df_city = df_Cidades_Ano[df_Cidades_Ano['munic'] == cidade].groupby('ano').last().reset_index()
                 plt.plot(df_city['ano'], df_city['pop_munic'])
                 plt.title(f"{df_city['munic'].unique()[0]}")
                 plt.xlabel("Ano")
@@ -55,7 +35,26 @@ def plot_loader(**specs):
                 plt.savefig(file_path)
                 lista_plots.append(file_name)
                 plt.close()
-                return lista_plots
+            return lista_plots
+        else:
+            df_Cidades_Total = pd.read_csv('../PopulacaoEvolucaoMensalMunic.csv', sep=';', encoding='latin-1')
+            df_Cidades_Ano = df_Cidades_Total.groupby('cod_munic', group_keys=True).apply(lambda x: x)
+            cidades = df_Cidades_Ano['munic'].unique()
+            lista_plots = []
+            df_city = df_Cidades_Ano[
+                df_Cidades_Ano['munic'] == city if city else df_Cidades_Ano['munic'] == cidades[0]
+            ].groupby('ano').last().reset_index()
+            plt.plot(df_city['ano'], df_city['pop_munic'])
+            plt.title(f"{df_city['munic'].unique()[0]}")
+            plt.xlabel("Ano")
+            plt.ylabel("População")
+            plt.title(f"Crescimento populacional por ano em {df_city['munic'].unique()[0]}")
+            file_name = f"{df_city['munic'].unique()[0].replace(' ', '_')}_plot.png"
+            file_path = os.path.join(STATICFILES_DIRS[0], file_name)
+            plt.savefig(file_path)
+            lista_plots.append(file_name)
+            plt.close()
+            return lista_plots
 
         
 

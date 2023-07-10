@@ -1,8 +1,8 @@
 import React, { useState, useEffect, ReactComponentElement, ReactNode } from 'react';
 export interface PlotData {
-    'area': string;
-    'city': string;
-    'time': string;
+    area: string;
+    city: string;
+    time: string;
 }
 
 export default function Plot (dataPlot: PlotData) {
@@ -13,11 +13,12 @@ export default function Plot (dataPlot: PlotData) {
 
     const [plotQuantity, setPlotQuantity] = useState(10);
 
-    const [loading, setLoading] = useState(true);
+    const [lastImage, setLastImage] = useState(false)
 
     
     useEffect(() => {
         const loadData = () => {
+
             // Retrieve plot data from 
             fetch('/serve_plot',{
                 headers: {
@@ -28,24 +29,29 @@ export default function Plot (dataPlot: PlotData) {
             })
             .then(response => response.json())
             .then(data => {
+                (async () => {
+                    if (data.file_paths.toString() !== plotData.toString()) {
+                        setLastImage(false)
+                    }
+                })()
                 setPlotData(data.file_paths)
-                setLoading(false)
             })
-            .catch(error => console.log(error));
+            .catch(error => console.log(error))
         }
-        
+    
         loadData();
 
     }, [plotData])
 
     return (
         <div id="plotsContainer">
-            {loading ? <h2>Carregando gráfico...</h2> :
-            
-                plotData.slice(0, plotQuantity).map((imgPath) => (
-                    <img key={imgPath} src={`${staticUrl}${imgPath}`} alt={`Plot ${imgPath.split(".png")[0]}`}/>
+            {!lastImage && (plotData.length > 1 ? <h2>Carregando gráficos...</h2>: <h2>Carregando gráfico...</h2>)}
+            {
+                plotData.slice(0, plotQuantity).map((imgPath, index) => (
+                    (index == plotData.length - 1 || index == plotQuantity - 1) ? <img key={imgPath} src={`${staticUrl}${imgPath}`} alt={`Plot ${imgPath.split(".png")[0]}`} onLoad={() => setLastImage(true)}/> : <img key={imgPath} src={`${staticUrl}${imgPath}`} alt={`Plot ${imgPath.split(".png")[0]}`}/>
                 ))}
-                {plotData.length > plotQuantity && <button onClick={() => setPlotQuantity(plotQuantity+10)}>Mostrar mais</button>
+
+                {plotData.length > plotQuantity && <><br /><button onClick={() => setPlotQuantity(plotQuantity+10)}>Mostrar mais</button></>
             }
         </div>
         )

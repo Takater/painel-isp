@@ -16,12 +16,20 @@ export default function CitiesList() {
 
     return (
         <select name="city_choice" id="city_choice">
-            <option key="all" value="all">Todos</option>
-            {lista && lista.map((cidade) => (
-                <option key={cidade} value={cidade}>
-                    {cidade}
-                </option>
-            ))}
+            {lista && lista.map((cidade, index) => {
+                return index == lista.length - 1 ?
+                (
+                    <>
+                    <option key={cidade} value={cidade}>
+                        {cidade}
+                    </option>
+                    <option key="all" value="all">Todos</option>
+                    </>
+                ):
+                    <option key={cidade} value={cidade}>
+                        {cidade}
+                    </option>
+            })}
         </select>
     )
 }
