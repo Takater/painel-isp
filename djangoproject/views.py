@@ -9,7 +9,7 @@ def index(request):
     context = {
         'title': "Painel de Dados ISP"
     }
-    return HttpResponse(template.render(context, request))
+    return HttpResponse(template.render(context, request), content_type='application/javascript')
 
 def serve_plot(request):
     chosen_area = request.headers.get('Area')
