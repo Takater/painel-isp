@@ -1,7 +1,7 @@
 from django.http import HttpResponse, FileResponse, JsonResponse
 from django.template import loader
 from .data import plot_loader, lista_cidades
-from .settings import STATICFILES_DIRS
+from .settings import STATICFILES_DIRS, STATIC_URL
 import os
 
 def index(request):

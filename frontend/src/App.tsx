@@ -6,44 +6,43 @@ import { PlotData } from './components/Plot';
 import CitiesList from './components/CitiesList';
 
 function App() {
-
-  // Initial data
-  const data:PlotData = {'area': 'state', 'city': '', 'time': 'year'};
   
   // Plot data hook
-  const [plotData, setPlotData] = useState(data)
+  const [plotData, setPlotData] = useState<PlotData>()
 
   // City list hook
-  const [listCities, setListCities] = useState(data.area == 'city')
+  const [listCities, setListCities] = useState(false);
 
   useEffect(() => {
-    
-    function handlePlotChange(event: Event) {
-      
-      // Get changed select 
-      let select = event.target as HTMLSelectElement
-      let opt = select[select.selectedIndex] as unknown || HTMLSelectElement;
-      let area_choice = opt as HTMLSelectElement;
 
-      // Get attribute name to be changed
-      let value_name = select.id.split("_")[0]
+    const setPlot = async (area_choice: HTMLSelectElement, city_choice: HTMLSelectElement | null, time_choice: HTMLSelectElement) => {
+
 
       // Build new data with updated change
-      if (area_choice) {
-        const newData:PlotData = {
-          ...plotData,
-          [value_name]: area_choice.value
-        }
-
-        // Set hooks
-        setPlotData(newData);
-        setListCities(newData.area == 'city');
+      const newData:PlotData = {
+        area: area_choice.value,
+        city: city_choice ? city_choice.value as string : area_choice.value == 'city' ? 'all' : '',
+        time: time_choice.value
       }
+
+      // Set hooks
+      setListCities(newData.area == 'city');
+      setPlotData(newData);
     }
 
-    document.getElementById("area_choice")?.addEventListener('change', handlePlotChange);
-    document.getElementById("city_choice")?.addEventListener('change', handlePlotChange);
-    document.getElementById("time_choice")?.addEventListener('change', handlePlotChange);
+    const areaSelect = document.getElementById("area_choice") as HTMLSelectElement;
+    const citySelect = document.getElementById("city_choice") as HTMLSelectElement;
+    const timeSelect = document.getElementById("time_choice") as HTMLSelectElement;
+    
+    function handlePlotChange() {
+        setPlot(areaSelect, citySelect, timeSelect)
+    }
+
+    areaSelect?.addEventListener('change', handlePlotChange);
+    citySelect?.addEventListener('change', handlePlotChange);
+    timeSelect?.addEventListener('change', handlePlotChange);
+
+    !plotData && setPlot(areaSelect, citySelect, timeSelect);
 
   }, [plotData])
 
@@ -66,7 +65,7 @@ function App() {
           </select>
         </div>
       </header>
-      <Plot area={plotData.area} city={plotData.city} time={plotData.time}/>
+      {plotData && <Plot {...plotData} />}
     </div>
   );
 }

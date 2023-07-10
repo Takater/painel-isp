@@ -12,7 +12,7 @@ export default function CitiesList() {
         };
 
         loadList();
-    }, [lista])
+    }, [])
 
     return (
         <select name="city_choice" id="city_choice">
