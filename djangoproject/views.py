@@ -11,7 +11,7 @@ def index(request):
     }
     response = HttpResponse(template.render(context, request))
     response['Content-Type'] = 'application/javascript'
-    return 
+    return response
 
 def serve_plot(request):
     chosen_area = request.headers.get('Area')
