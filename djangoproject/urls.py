@@ -27,4 +27,4 @@ urlpatterns = [
     path('serve_plot', views.serve_plot, name='Plot'),
     path('cidades', views.load_cities_list, name='Lista'),
     path('admin/', admin.site.urls)
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
