@@ -3,11 +3,6 @@
         {
             "src": "djangoproject/wsgi.py",
             "use": "@vercel/python"
-        },
-        {
-            "src": "build.sh",
-            "use": "@vercel/static-build",
-            "config": {"distDir": "djangoproject/frontend/build/static/"}
         }
     ],
     "routes": [
