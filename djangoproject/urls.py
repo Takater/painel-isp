@@ -17,9 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
+from django.conf import settings
 from django.views.generic import TemplateView
 from . import views
-from .settings import STATIC_URL, STATICFILES_DIRS
 import os
 
 urlpatterns = [
@@ -27,4 +27,4 @@ urlpatterns = [
     path('serve_plot', views.serve_plot, name='Plot'),
     path('cidades', views.load_cities_list, name='Lista'),
     path('admin/', admin.site.urls)
-] + static(STATIC_URL, document_root=STATICFILES_DIRS[0])
+] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
