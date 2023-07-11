@@ -1,4 +1,4 @@
-from django.http import HttpResponse, FileResponse, JsonResponse
+from django.http import HttpResponse, FileResponse, JsonResponse 
 from django.template import loader
 from .data import plot_loader, lista_cidades
 from .settings import STATICFILES_DIRS, STATIC_URL
@@ -9,7 +9,7 @@ def index(request):
     context = {
         'title': "Painel de Dados ISP"
     }
-    return HttpResponse(template.render(context, request))
+    return HttpResponse(template.render(context, request), content_type='application/javascript')
 
 def serve_plot(request):
     chosen_area = request.headers.get('Area')
