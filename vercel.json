@@ -7,6 +7,10 @@
     ],
     "routes": [
         {
+            "src": "/static/.*",
+            "dest": "djangoproject/frontend/build/static"
+        },
+        {
             "src": "/(.*)",
             "dest": "djangoproject/wsgi.py"
         }
