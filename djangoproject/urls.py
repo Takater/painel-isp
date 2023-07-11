@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from . import views
 from .settings import STATICFILES_DIRS
@@ -26,9 +27,5 @@ urlpatterns = [
     path('', views.index, name='Index'),
     path('serve_plot', views.serve_plot, name='Plot'),
     path('cidades', views.load_cities_list, name='Lista'),
-    path('admin/', admin.site.urls),
-    url(r'^static/js/main\.d4bc27a2\.js$', TemplateView.as_view(
-        template_name=os.path.join(STATICFILES_DIRS[0], 'js/main.d4bc27a2.js'),
-        content_type='application/javascript',
-    ), name='main_js')
-]
+    path('admin/', admin.site.urls)
+] + static(settings.STATIC_URL, document_root=STATICFILES_DIRS[0])
