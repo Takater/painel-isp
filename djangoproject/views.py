@@ -5,7 +5,7 @@ from .settings import STATICFILES_DIRS, STATIC_URL
 import os
 
 def index(request):
-    template = loader.get_template("/static/js/main.d4bc27a2.js")
+    template = loader.get_template("index.html")
     context = {
         'title': "Painel de Dados ISP"
     }
