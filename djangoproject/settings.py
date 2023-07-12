@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-12y^dxw!5-i2@=2xun9osa)j!r^m80ia)j6@i2(77%672&3ojz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [] if DEBUG else ['https://guimoretps.pythonanywhere.com']
+ALLOWED_HOSTS = [] if DEBUG else ['guimoretps.pythonanywhere.com']
 
 
 # Application definition
