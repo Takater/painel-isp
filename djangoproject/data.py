@@ -109,4 +109,4 @@ def readcsv_path(pathstring):
     try:
         return pd.read_csv(f'../{pathstring}', sep=';', encoding='latin-1')
     except FileNotFoundError:
-        return pd.read_csv(f'{pathstring}', sep=';', encoding='latin-1')
+        return pd.read_csv(os.path.abspath(f'./{pathstring}'), sep=';', encoding='latin-1')
