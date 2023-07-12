@@ -17,7 +17,7 @@ def plot_loader(**specs):
     
     df = pd.DataFrame
     if area == 'city':
-        df_Cidades_Total = readcsv_path('../PopulacaoEvolucaoMensalMunic.csv')
+        df_Cidades_Total = readcsv_path('PopulacaoEvolucaoMensalMunic.csv')
         df_Cidades_Ano = df_Cidades_Total.groupby('cod_munic', group_keys=True).apply(lambda x: x)
         cidades = df_Cidades_Ano['munic'].unique()
         lista_plots = []
@@ -56,7 +56,7 @@ def plot_loader(**specs):
 
     else:
         if time == 'year':
-            df = readcsv_path('../PopulacaoEvolucaoAnualEstado.csv')
+            df = readcsv_path('PopulacaoEvolucaoAnualEstado.csv')
             year = df['ano']
             people = df['pop']
             plt.plot(year, people)
@@ -71,7 +71,7 @@ def plot_loader(**specs):
         
         else:
             N = 250
-            df = readcsv_path('../PopulacaoEvolucaoMensalEstado.csv')
+            df = readcsv_path('PopulacaoEvolucaoMensalEstado.csv')
             df['data'] = pd.to_datetime(df['mes'].astype(str) + '/' + df['ano'].astype(str), format='%m/%Y')
             df.drop(['mes', 'ano'], axis=1, inplace=True)
             df.set_index('data', inplace=True)
@@ -101,7 +101,7 @@ def plot_loader(**specs):
 
 
 def lista_cidades():
-    df = readcsv_path('../PopulacaoEvolucaoMensalMunic.csv')
+    df = readcsv_path('PopulacaoEvolucaoMensalMunic.csv')
     cidades = df['munic'].unique().tolist()
     return cidades
 
