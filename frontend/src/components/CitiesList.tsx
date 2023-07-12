@@ -12,6 +12,7 @@ export default function CitiesList() {
             const response = await fetch('/cidades');
             const data = await response.json();
             data.cidades && setLista(data.cidades);
+            setLoadingList(false)
         };
 
         loadList();
@@ -27,7 +28,7 @@ export default function CitiesList() {
                     <option key={cidade} value={cidade}>
                         {cidade}
                     </option>
-                    <option key="all" value="all" onLoad={() => setLoadingList(false)}>Todos</option>
+                    <option key="all" value="all">Todos</option>
                     </>
                 ):
                     <option key={cidade} value={cidade}>
