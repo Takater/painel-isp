@@ -1,8 +1,10 @@
 # Painel de Dados ISP - RJ
-Esse projeto foi feito como participação em desafio técnico para vaga de desenvolvimento no Instituto de Segurança Pública (ISP - RJ)
+Projeto para geração de gráficos descritivos a partir de arquivos CSV disponibilizados no [site da ISP-RJ]("https://www.ispdados.rj.gov.br/Populacao.html")
 
 # Visão Geral
-Projeto feito em Python com Django e biblioteca React com Typescript, seguindo modelo de renderização SSR.
+Projeto feito em Python com Django e Typescript com biblioteca React, seguindo modelo de renderização SSR.
+
+Publicado em [Python Anywhere]("https://guimoretps.pythonanywhere.com/")
 
 # Atualização
-7 de Julho de 2023
+12 de Julho de 2023
