@@ -3,7 +3,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from .settings import STATICFILES_DIRS
+from .settings import STATIC_ROOT
 import os
 import base64
 
@@ -31,7 +31,7 @@ def plot_loader(**specs):
                 plt.ylabel("População")
                 plt.title(f"{df_city['munic'].unique()[0]}")
                 file_name = f"{df_city['munic'].unique()[0].replace(' ', '_')}_plot.png"
-                file_path = os.path.join(STATICFILES_DIRS[0], file_name)
+                file_path = os.path.join(STATIC_ROOT, file_name)
                 plt.savefig(file_path)
                 lista_plots.append(file_name)
                 plt.close()
@@ -46,7 +46,7 @@ def plot_loader(**specs):
             plt.ylabel("População")
             plt.title(f"Crescimento populacional por ano em {df_city['munic'].unique()[0]}")
             file_name = f"{df_city['munic'].unique()[0].replace(' ', '_')}_plot.png"
-            file_path = os.path.join(STATICFILES_DIRS[0], file_name)
+            file_path = os.path.join(STATIC_ROOT, file_name)
             plt.savefig(file_path)
             lista_plots.append(file_name)
             plt.close()
@@ -64,7 +64,7 @@ def plot_loader(**specs):
             plt.ylabel('População')
             plt.title('Crescimento populacional por ano')
             file_name = 'plot.png'
-            file_path = os.path.join(STATICFILES_DIRS[0], 'plot.png')
+            file_path = os.path.join(STATIC_ROOT, 'plot.png')
             plt.savefig(file_path)
             plt.close()
             return [file_name]
@@ -93,7 +93,7 @@ def plot_loader(**specs):
             plt.gcf().set_size_inches(s, plt.gcf().get_size_inches()[1])
             plt.title('Crescimento populacional por mês')
             file_name = 'monthplot.png'
-            file_path = os.path.join(STATICFILES_DIRS[0], file_name)
+            file_path = os.path.join(STATIC_ROOT, file_name)
             plt.savefig(file_path)
             plt.close()
             return [file_name]
