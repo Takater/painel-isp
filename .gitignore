@@ -23,3 +23,8 @@ yarn-debug.log*
 yarn-error.log*
 
 staticfiles/
+
+__pycache__/
+
+frontend/build/static/*.png
+
