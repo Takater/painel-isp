@@ -106,10 +106,7 @@ def lista_cidades():
     return cidades
 
 def readcsv_path(pathstring):
-    df
     try:
-        df = pd.read_csv(f'../{pathstring}', sep=';', encoding='latin-1')
+        return pd.read_csv(f'../{pathstring}', sep=';', encoding='latin-1')
     except FileNotFoundError:
-        df = pd.read_csv(f'{pathstring}', sep=';', encoding='latin-1')
-    
-    return df
+        return pd.read_csv(f'{pathstring}', sep=';', encoding='latin-1')
