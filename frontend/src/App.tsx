@@ -14,9 +14,12 @@ function App() {
   // City list hook
   const [listCities, setListCities] = useState(false);
 
+  const [loadingPlot, setLoadingPlot] = useState(true);
+
   useEffect(() => {
     
-    const setPlot = (area_choice: HTMLSelectElement, city_choice: HTMLSelectElement | null, time_choice: HTMLSelectElement) => {
+    const setPlot = async (area_choice: HTMLSelectElement, city_choice: HTMLSelectElement | null, time_choice: HTMLSelectElement) => {
+      setLoadingPlot(true)
 
       // Build new data with updated change
       const newData:PlotData = {
@@ -25,10 +28,10 @@ function App() {
         time: time_choice ? time_choice.value : 'year'
       }
 
-      console.log(newData)
       // Set hooks
       setListCities(newData.area == 'city');
       setPlotData(newData)
+      setLoadingPlot(false)
     }
     
     const areaSelect = document.getElementById("area_choice") as HTMLSelectElement;
@@ -76,7 +79,7 @@ function App() {
           
         </div>
       </header>
-      {plotData && <Plot {...plotData} />}
+      {(!loadingPlot && plotData) && <Plot {...plotData} />}
     </div>
   );
 }
